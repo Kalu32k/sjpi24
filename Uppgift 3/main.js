@@ -2,7 +2,7 @@
 
 //  Our variables
 const changeBtn = document.querySelector("#changeBtn");
-const changeText = document.querySelector("#changeText")
+const changeText = document.querySelector("#changeText");
 
 //  Add listners
 helloBtn.addEventListener(
