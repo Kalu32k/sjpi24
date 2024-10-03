@@ -1,15 +1,29 @@
 // The JS code for our todo app
+// Getting the HTML elements
+const inputText = document.querySelector("#inputTodo");     // Input text field  
+const addBtn = document.querySelector("#addBtn");           // Button to add text to list
+const todoList = document.querySelector("#todoList");       // Unorderd List ul
+const countTodo = document.querySelector("countTodo")        // Todo count
 
-const inputText = document.querySelector("#inputTodo");     // input text field  
-const addBtn = document.querySelector("#addBtn");           // button to add text to list
-const todoList = document.querySelector("#todoList");       // ul list
+// Declaring the variables
 let completedCount = 0;
-let todos=[];
-import { theButton } from "./secret.js";
-let status
-let boxTag = 0;
 const todoArray=[];
 
+// Importing the function from another javascript file
+import { theButton } from "./secret.js";
+
+
+ // Change status of the todo
+ function changeStatus(text,status){
+    let changeIndex = todoArray.map(t => t.name).indexOf(text);
+    todoArray[changeIndex].completed = status;
+   console.log(todoArray) 
+}
+
+function deleteFromArray(text){
+    let changeIndex = todoArray.map(t => t.name).indexOf(text);
+    delete todoArray[changeIndex]
+}
 
 
 
@@ -22,7 +36,7 @@ addBtn.addEventListener("click", addTodo);
 // Add the todo when the Enter key is pressed
 inputTodo.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
-        addTodo();  // Call the same function as the button click
+        addTodo();  // The Enter key acts as a regular mouseclick
         }
     }
 );
@@ -33,7 +47,7 @@ function addTodo(){
     // Get value from input
     let text = inputText.value;
 
-    // Condition check: input must not be empty
+    // Condition check that input must not be empty
     if (text.length == 0) {
         errorText.innerText = "Du måste skriva något";
         return;  // Return early if no text is entered
@@ -46,46 +60,70 @@ function addTodo(){
     const listedItem = document.createElement("li");
     todoList.appendChild(listedItem);
 
-    const itemLabel = document.createElement("span");
+    const itemLabel = document.createElement("span")
+    itemLabel.setAttribute("class","todotext");
+   // querySelector("span").setAttribute("class","todotext");
     itemLabel.innerText = text;
     listedItem.appendChild(itemLabel);
 
-    // Add remove button
+   // Add remove button
     const removeBtn = document.createElement("span")
     removeBtn.setAttribute("class", "removeBtn");
     removeBtn.innerHTML = "&#128465"
     listedItem.appendChild(removeBtn)
-
     removeBtn.addEventListener("click", function(){
-        todoList.removeChild(listedItem);
+    todoList.removeChild(listedItem);
+    deleteFromArray(text)
     })
-
-
-    inputText.value = "";
-
-    // Add event listener to the new li element
-    listedItem.addEventListener("click", function() {
-    console.log("Clicked on the text");
-
-        // Toggles completed states
-    if (listedItem.getAttribute("class") === "completed") {
-        completedCount--;
-        listedItem.setAttribute("class", "");
-    } 
-    else {
-        completedCount++;
-        listedItem.setAttribute("class", "completed");
-    }
-
     
-
 
 
     // Reset the input field after adding the todo item
-    
+    inputText.value = "";
+
+    // Add event listener to the new span element
+    itemLabel.addEventListener("click", function() {
+   
+
+
+
+
+
+
+
+
+
+
+        
+        // Toggles completed states
+    if (itemLabel.getAttribute("class","todotext") == "completed") {
+        completedCount--;
+        itemLabel.setAttribute("class", "");
+        let todoText = itemLabel.firstChild.Text
+        changeStatus(text, false)
+        console.log(completedCount)
+        console.log(todoArray)
+    } 
+    else {
+        
+        itemLabel.setAttribute("class", "completed");
+        completedCount++;
+        let todoText = itemLabel.firstChild.Text
+        changeStatus(text, true)
+        console.log(completedCount)
+        console.log(todoArray)
         }
-    );
-}
+
+        //countTodo.innerText= `Number of completed todos: `+ completedCount;
+
+            })
+
+       // Add to array
+       const todoObject = {};
+       todoObject.name = text;
+       todoObject.completed = false;
+       todoArray.push(todoObject);
+    
 
 
 
@@ -93,5 +131,13 @@ function addTodo(){
 
 
 
+       
+    //console.log(completedCount)
+    console.log(todoArray)
+       
+        
+
+ 
 
 
+    }

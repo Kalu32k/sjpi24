@@ -40,6 +40,14 @@ li {
     border-radius: 8px;
     text-align: center;
 }
+.todotext {
+    padding: 1px;
+    font-size:20px;
+    color: black;
+    text-align: center;
+    border-radius: 8px;
+    text-align: center;
+}
 
 /* Completed Todos*/
 .completed {
